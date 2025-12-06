@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Background Remover</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <h1 class="title">AI Background Remover</h1>
+    <p class="subtitle">Remove image background instantly using AI — 100% free and fast.</p>
+
+    <form action="/" method="POST" enctype="multipart/form-data" class="upload-form">
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <p class="upload-text">Drag & Drop your image here<br>or click to browse</p>
+            <input type="file" name="file" id="fileInput" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Remove Background</button>
+
+    </form>
+
+    {% if input_img %}
+    <div class="result-section">
+        <div class="result-card">
+            <h2>Original</h2>
+            <img src="/static/{{ input_img }}" alt="original">
+        </div>
+
+        <div class="result-card">
+            <h2>Output</h2>
+            <img src="/static/{{ output_img }}" alt="output">
+            <a href="/static/{{ output_img }}" download class="download-btn">Download</a>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+    // Drag & Drop JavaScript
+    const uploadArea = document.getElementById("uploadArea");
+    const fileInput = document.getElementById("fileInput");
+
+    uploadArea.addEventListener("click", () => fileInput.click());
+
+    uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragging");
+    });
+
+    uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragging");
+    });
+
+    uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragging");
+        fileInput.files = e.dataTransfer.files;
+    });
+</script>
+
+</body>
+</html>
